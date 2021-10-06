@@ -6,19 +6,16 @@ class Core {
 
 		$url = "/";
 		if(isset($_GET["url"])) {
-
 			$url .= $_GET["url"];
-
 		}
 
 		$params = array();
 
 		if(!empty($url) && $url != "/") {
-
 			$url = explode("/", $url);
 			array_shift($url);
 
-			$currentController = $url[0];
+			$currentController = $url[0]."Controller";
 			array_shift($url);
 
 			$currentAction = $url[0];
@@ -42,10 +39,10 @@ class Core {
 
 			$currentController = "homeController";
 			$currentAction = "index";
-
 		}
 
-		echo "CONTROLLER: ".$currentController. "<br>ACTION: ".$currentAction."<br>PARAMS: ".print_r($params, true);
+		$c = new $currentController();
+		call_user_func_array(array($c,$currentAction),$params);
 
 	}
 
